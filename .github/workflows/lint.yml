@@ -12,13 +12,14 @@ permissions:
   # pull-requests: read
 
 jobs:
+  # TODO: Investigate and fix lint errors (failing upstream as well)
   golangci:
     name: golangci-lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-go@v5
         with:
-          go-version: 1.22.4
+          go-version: 1.23.2
       - uses: actions/checkout@v4
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v4
@@ -26,16 +27,17 @@ jobs:
           # Optional: version of golangci-lint to use in form of v1.2 or v1.2.3 or `latest` to use the latest version
           version: latest
           only-new-issues: true
+
   govulncheck:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: 1.22.4
+          go-version: 1.23.2
           cache: true
           cache-dependency-path: go.sum
-      - uses: technote-space/get-diff-action@v6.1.2
+      - uses: https://github.com/technote-space/get-diff-action@v6.1.2
         id: git_diff
         with:
           PATTERNS: |
@@ -46,6 +48,8 @@ jobs:
         if: env.GIT_DIFF
         run: |
           make govulncheck
+
+  # TODO: Investigate and fix lint errors (failing upstream as well)
   lint-markdown:
     name: Lint markdown
     runs-on: ubuntu-latest

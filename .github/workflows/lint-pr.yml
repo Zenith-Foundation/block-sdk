@@ -1,11 +1,16 @@
 name: "Lint PR"
 
+# Disabled for the gitea fork - needs a GITHUB_TOKEN
+# on:
+#   pull_request_target:
+#     types:
+#       - opened
+#       - edited
+#       - synchronize
+
+# Only manual trigger
 on:
-  pull_request_target:
-    types:
-      - opened
-      - edited
-      - synchronize
+  workflow_dispatch:
 
 permissions:
   contents: read
